@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Notes</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $.get('/getall', function (res) {
+                $('#notes').html(res);
+            });
+
+            $('#create').submit(function () {
+                $.post('/create', $(this).serialize(), function (res) {
+                    $('#notes').html(res);
+                });
+                $("#newtitle").val("");
+                $("#newdescription").val("");
+                return false;
+            });
+        });
+
+        function dankmemes() {
+            alert("DANK MEMES ALERT");
+        }
+    </script>
+    <style>
+        form {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Notes</h1>
+    <div id="notes">
+    </div>
+    <hr>
+    <form style="display: flex; flex-direction:column; width: 200px;" id="create" action="/create" method="post">
+        <input id="newtitle" type="text" name="title" placeholder="Insert note title here">
+        <textarea id="newdescription" name="description" placeholder="Write your note here"></textarea>
+        <input type="submit" value="Add Note">
+    </form>
+</body>
+
+</html>

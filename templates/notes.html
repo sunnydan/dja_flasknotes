@@ -1,0 +1,28 @@
+{% for note in notes %}
+<div class='note' style="border: solid black 1px; width: 300px; margin: 1px; background-color:palegoldenrod;">
+    <div onclick="$(this).next().show(); $(this).hide();">
+        <legend>{{ note['title'] }}</legend>
+        <span>{{ note['description'] }}</span>
+    </div>
+    <form onsubmit="$
+    $.post('/update', $(this).serialize(), function (res) {
+        $('#notes').html(res);
+    });
+    return false;
+    " style="display: flex; display: none; flex-direction:column; width: 200px; margin: 0;" class="updateform">
+        <input type="text" name="title" value="{{ note['title'] }}">
+        <textarea name="description">{{ note['description'] }}</textarea>
+        <input type="hidden" name="id" value="{{ note['id'] }}">
+        <input type="submit" value="Update Note">
+    </form>
+    <form onsubmit="
+    $.post('/delete', $(this).serialize(), function (res) {
+        $('#notes').html(res);
+    });
+    return false;
+    " id="delete" style="margin: 0;">
+        <input type="hidden" name="id" value="{{ note['id'] }}">
+        <input type="submit" value="Delete Note">
+    </form>
+</div>
+{% endfor %}
